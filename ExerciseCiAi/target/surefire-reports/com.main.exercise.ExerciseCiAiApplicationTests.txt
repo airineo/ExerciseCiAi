@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.main.exercise.ExerciseCiAiApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.222 s - in com.main.exercise.ExerciseCiAiApplicationTests
