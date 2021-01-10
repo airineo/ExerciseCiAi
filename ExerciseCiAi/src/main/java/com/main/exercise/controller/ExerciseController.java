@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RequestMapping("/ci")
 public class ExerciseController {
-	
+
 	/**
 	 * Método que mapea headers.
 	 * @param request HttpServletRequest objecto con headers definidos y predefinidos
@@ -62,18 +63,20 @@ public class ExerciseController {
 	@GetMapping("/filteredHeaders")
 	public Map<String, List<String>> filteredHeaders(HttpServletRequest request, @RequestBody List<String> headerNames) {
 		Map<String, List<String>> map = new Hashtable<String, List<String>>();
-		
 		headerNames.forEach(element ->{			
 			List<String> list = new ArrayList<>();
-			String[] array = request.getHeader(element).split(",");
-			List<String> resultArray = Arrays.asList(array);
-			resultArray.forEach(x->{
-				list.add(x);	
-			});
-			map.put(element, list);
+			if(element != null && !element.equals("") && !element.equals("null")) {
+				String[] array = request.getHeader(element).split(",");
+				List<String> resultArray = Arrays.asList(array);
+				resultArray.forEach(x->{
+					list.add(x);	
+				});
+				map.put(element, list);
+			}
 		}); 
-	
+
 
 		return map;
 	}
+
 }
