@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -27,12 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RequestMapping("/ci")
 public class ExerciseController {
-
-
+	
 	/**
 	 * Método que mapea headers.
-	 * @param request HttpServletRequest objecto
-	 * @return 
+	 * @param request HttpServletRequest objecto con headers definidos y predefinidos
+	 * @return Map<String, List<String>> un mapa de los headers con su respetiva lista de posibles valores múltiples
 	 */
 	@GetMapping("/getHeaders")
 	public Map<String, List<String>> getHeaders(HttpServletRequest request) {	
@@ -43,7 +42,12 @@ public class ExerciseController {
 				.stream();
 		headerNames.forEach(element ->{
 			List<String> list = new ArrayList<>();
-			list.add(request.getHeader(element));
+			String[] array = request.getHeader(element).split(",");
+			List<String> resultArray = Arrays.asList(array);
+			resultArray.forEach(x->{
+				list.add(x);	
+			});
+
 			map.put(element, list);
 		});
 
@@ -51,24 +55,24 @@ public class ExerciseController {
 	}
 	/**
 	 * Método que filtra headers respecto de los parámetros enviados.
-	 * @param request HttpServletRequest Objecto
+	 * @param request HttpServletRequest objecto con headers definidos y predefinidos
 	 * @param headerNames List<String> Lista de Strings
-	 * @return Map<String, List<String>> Devuelve un mapa de los elementos filtrados en base a headersNames
+	 * @return Map<String, List<String>> un mapa de los headers con su respetiva lista de posibles valores múltiples filtrados
 	 */
 	@GetMapping("/filteredHeaders")
-	public Map<String, List<String>> filteredHeaders(HttpServletRequest request, @RequestParam("headerNames") List<String> headerNames) {
+	public Map<String, List<String>> filteredHeaders(HttpServletRequest request, @RequestBody List<String> headerNames) {
 		Map<String, List<String>> map = new Hashtable<String, List<String>>();
-		Stream<String> headerNames1 = (Stream<String>)
-				Collections.list(request.getHeaderNames())
-				.stream();
 		
-		headerNames.forEach(element ->{
-			headerNames1.filter(header -> header == element);
+		headerNames.forEach(element ->{			
 			List<String> list = new ArrayList<>();
-			list.add(request.getHeader(element));
+			String[] array = request.getHeader(element).split(",");
+			List<String> resultArray = Arrays.asList(array);
+			resultArray.forEach(x->{
+				list.add(x);	
+			});
 			map.put(element, list);
-		});
-
+		}); 
+	
 
 		return map;
 	}
