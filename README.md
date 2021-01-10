@@ -1,4 +1,4 @@
-1.- Download this project by typing in the windows or linux console: git clone
+1.- Download this project by typing in the windows or linux console: git clone https://github.com/airineo/ExerciseCiAi.git
 2.- Once downloaded, as a local test, inside the project root type: mvn spring-boot: run
 This will run the spring-boot application in such a way that it will expose the rest services, which are added in an additional documentation properly for the purposes of this exercise.
 3.- In case you want to deploy in a micro services environment, specifically with docker
